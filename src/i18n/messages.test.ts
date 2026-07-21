@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   parse,
   type MessageFormatElement,
@@ -67,6 +69,64 @@ describe('pt-BR messages', () => {
   it('contains no translation-generation markers', () => {
     for (const [key, value] of translated) {
       expect(value, key).not.toMatch(/987654|ZXQWACRM|>>pt(?:_BR)?<</);
+    }
+  });
+
+  it('contains no stale brand names, European Portuguese, or known translation artifacts', () => {
+    const forbidden =
+      /\bwacrm\b|Actualizar|Contacto|correio electr[oô]nico|factura[cç][aã]o|Controlo|Activar|Deactivar|utilizador|gasoduto|oleoduto|\btubo\b|\btrato\b|Repliques|Resubmit|Batalhas|Fauls[aã]o|evidenziador|inertar|empau|palavras- palavras|Reprojecto|Pied de rodapé|QUITK|\bButtons\b|\bDeals\b|\bWon\b/iu;
+
+    for (const [key, value] of translated) {
+      expect(value, key).not.toMatch(forbidden);
+      expect(value, key).not.toMatch(/\s{2,}/);
+    }
+  });
+
+  it('keeps untranslated values only for approved technical or universal terms', () => {
+    const allowed = new Set([
+      'Sidebar.beta',
+      'Sidebar.defaultAvatar',
+      'Header.defaultAvatar',
+      'Dashboard.pipelineDonut.total',
+      'Inbox.messageThread.status',
+      'Inbox.replyQuote.audio',
+      'Pipelines.form.status',
+      'Automations.builder.config.placeholderTime',
+      'Automations.builder.config.urlLabel',
+      'Automations.builder.config.placeholderBody',
+      'Broadcasts.wizard.personalize.imageUrlPlaceholder',
+      'Flows.list.beta',
+      'Flows.builder.form.tagUuidPlaceholder',
+      'Settings.templates.btnUrl',
+      'Settings.sections.whatsapp',
+    ]);
+
+    const identical = [...translated]
+      .filter(([key, value]) => source.get(key) === value)
+      .map(([key]) => key)
+      .sort();
+    expect(identical).toEqual([...allowed].sort());
+  });
+});
+
+describe('visible source strings', () => {
+  function sourceFiles(root: string): string[] {
+    return readdirSync(root, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(root, entry.name);
+      if (entry.isDirectory()) return sourceFiles(path);
+      return /\.(?:ts|tsx)$/.test(entry.name) &&
+        entry.name !== 'messages.test.ts'
+        ? [path]
+        : [];
+    });
+  }
+
+  it('does not reintroduce known hard-coded English UI fallbacks', () => {
+    const forbidden =
+      /Delete this quick reply|Quick reply (?:updated|created)|aria-label=["']Settings sections|Saved, but Meta|Credentials saved and verified|Number is not fully registered|API connection successful|API connection failed|defaultValue:\s*["']Delete["']/;
+
+    for (const file of sourceFiles(join(process.cwd(), 'src'))) {
+      expect(readFileSync(file, 'utf8'), file).not.toMatch(forbidden);
     }
   });
 });

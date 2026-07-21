@@ -175,7 +175,7 @@ function SignupPageInner() {
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-muted-foreground">
-                Email
+                E-mail
               </Label>
               <Input
                 id="email"

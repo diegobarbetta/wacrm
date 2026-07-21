@@ -10,6 +10,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -50,6 +51,7 @@ function emptyDraft(): DraftState {
 }
 
 export function QuickRepliesManager() {
+  const t = useTranslations('Settings.quickReplies');
   const [items, setItems] = useState<QuickReply[]>([]);
   const [loading, setLoading] = useState(true);
   const [draft, setDraft] = useState<DraftState | null>(null);
@@ -83,7 +85,7 @@ export function QuickRepliesManager() {
   const save = useCallback(async () => {
     if (!draft) return;
     if (!draft.title.trim()) {
-      toast.error('Dê um nome à resposta rápida.');
+      toast.error(t('nameRequired'));
       return;
     }
     const payload =
@@ -111,41 +113,41 @@ export function QuickRepliesManager() {
       );
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        toast.error(data.error ?? 'Não foi possível salvar a resposta rápida.');
+        toast.error(data.error ?? t('saveFailed'));
         return;
       }
-      toast.success(draft.id ? 'Quick reply updated.' : 'Quick reply created.');
+      toast.success(draft.id ? t('updated') : t('created'));
       setDraft(null);
       await load();
     } catch {
-      toast.error('Não foi possível salvar a resposta rápida.');
+      toast.error(t('saveFailed'));
     } finally {
       setSaving(false);
     }
-  }, [draft, load]);
+  }, [draft, load, t]);
 
   const remove = useCallback(
     async (id: string) => {
-      if (!window.confirm('Delete this quick reply?')) return;
+      if (!window.confirm(t('deleteConfirm'))) return;
       const res = await fetch(`/api/quick-replies/${id}`, { method: 'DELETE' });
       if (!res.ok) {
-        toast.error('Não foi possível excluir a resposta rápida.');
+        toast.error(t('deleteFailed'));
         return;
       }
       await load();
     },
-    [load]
+    [load, t]
   );
 
   return (
     <div>
       <SettingsPanelHead
-        title="Respostas rápidas"
-        description="Trechos reutilizáveis, em texto simples ou mensagem interativa, que os agentes podem inserir pela caixa de entrada."
+        title={t('title')}
+        description={t('description')}
         action={
           <Button onClick={openCreate}>
             <Plus className="mr-1 h-4 w-4" />
-            Nova resposta rápida
+            {t('new')}
           </Button>
         }
       />
@@ -156,7 +158,7 @@ export function QuickRepliesManager() {
         </div>
       ) : items.length === 0 ? (
         <p className="border-border text-muted-foreground rounded-lg border border-dashed py-10 text-center text-sm">
-          Nenhuma resposta rápida. Crie uma para reutilizá-la nas conversas.
+          {t('empty')}
         </p>
       ) : (
         <ul className="flex flex-col gap-2">
@@ -206,33 +208,33 @@ export function QuickRepliesManager() {
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>
-              {draft?.id ? 'Editar resposta rápida' : 'Nova resposta rápida'}
+              {draft?.id ? t('editTitle') : t('newTitle')}
             </DialogTitle>
           </DialogHeader>
           {draft && (
             <div className="max-h-[70vh] space-y-3 overflow-y-auto">
               <div>
                 <label className="text-muted-foreground mb-1 block text-xs">
-                  Nome
+                  {t('name')}
                 </label>
                 <Input
                   value={draft.title}
                   onChange={(e) =>
                     setDraft({ ...draft, title: e.target.value })
                   }
-                  placeholder="Ex.: Horário de atendimento"
+                  placeholder={t('namePlaceholder')}
                   className="bg-muted text-foreground"
                 />
               </div>
               <div className="flex gap-2">
                 <KindTab
                   active={draft.kind === 'text'}
-                  label="Texto"
+                  label={t('text')}
                   onClick={() => setDraft({ ...draft, kind: 'text' })}
                 />
                 <KindTab
                   active={draft.kind === 'interactive'}
-                  label="Interativa"
+                  label={t('interactive')}
                   onClick={() => setDraft({ ...draft, kind: 'interactive' })}
                 />
               </div>
@@ -242,7 +244,7 @@ export function QuickRepliesManager() {
                   onChange={(e) =>
                     setDraft({ ...draft, content_text: e.target.value })
                   }
-                  placeholder="Texto da mensagem que será inserida"
+                  placeholder={t('contentPlaceholder')}
                   className="bg-muted text-foreground min-h-28"
                 />
               ) : (
@@ -261,11 +263,11 @@ export function QuickRepliesManager() {
               onClick={() => setDraft(null)}
               disabled={saving}
             >
-              Cancelar
+              {t('cancel')}
             </Button>
             <Button onClick={save} disabled={saving}>
               {saving && <Loader2 className="mr-1 h-4 w-4 animate-spin" />}
-              Salvar
+              {t('save')}
             </Button>
           </DialogFooter>
         </DialogContent>
