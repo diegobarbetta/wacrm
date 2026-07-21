@@ -13,7 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { MessageSquare, CheckCircle, ArrowLeft } from 'lucide-react';
+import { CheckCircle, ArrowLeft } from 'lucide-react';
+import { BrandLogo } from '@/components/brand-logo';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -46,6 +47,7 @@ export default function ForgotPasswordPage() {
       <div className="bg-background flex min-h-screen items-center justify-center px-4">
         <Card className="border-border bg-card w-full max-w-md">
           <CardHeader className="items-center text-center">
+            <BrandLogo className="mb-3 h-10 w-52" priority />
             <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
               <CheckCircle className="text-primary h-6 w-6" />
             </div>
@@ -77,9 +79,7 @@ export default function ForgotPasswordPage() {
     <div className="bg-background flex min-h-screen items-center justify-center px-4">
       <Card className="border-border bg-card w-full max-w-md">
         <CardHeader className="items-center text-center">
-          <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
-            <MessageSquare className="text-primary h-6 w-6" />
-          </div>
+          <BrandLogo className="mb-3 h-10 w-52" priority />
           <CardTitle className="text-foreground text-xl">
             Redefinir senha
           </CardTitle>

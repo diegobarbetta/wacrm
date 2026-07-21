@@ -1213,7 +1213,7 @@
       "tagsAndFields": "Etiquetas e campos personalizados",
       "tagsCount": "{count} {count, plural, =1 {etiqueta} other {etiquetas}}",
       "fieldsCount": "{count} {count, plural, =1 {campo personalizado} other {campos personalizados}}",
-      "appearance": "Modo{mode}·{theme}sotaque",
+      "appearance": "Modo {mode} · identidade SignaCon",
       "yourAccount": "Sua conta",
       "loading": "Carregando..."
     },
@@ -1274,7 +1274,7 @@
       "labelTooLong": "A etiqueta deve ter{max}caracteres ou menos",
       "copied": "Convidar a ligação copiada",
       "clipboardBlocked": "Área de recorte bloqueada — copiar manualmente o link",
-      "whatsappMessage": "Entre em {accountName} no WACRM usando este link (válido por {expiresInDays} dias): {url}"
+      "whatsappMessage": "Entre em {accountName} no SignaCon CRM usando este link (válido por {expiresInDays} dias): {url}"
     },
     "tagsAndFields": {
       "title": "Campos & tags",
@@ -1385,7 +1385,7 @@
       "saveResubmit": "Salvar & Reenviar",
       "submitApproval": "Submeter a aprovação",
       "deleteDialogTitle": "Apagar o modelo?",
-      "deleteMetaDesc": "\"{name}\" será excluído da Meta e do SC WACRM. Disparos ativos que usam este modelo falharão no próximo envio. Esta ação não pode ser desfeita.",
+      "deleteMetaDesc": "\"{name}\" será excluído da Meta e do SignaCon CRM. Disparos ativos que usam este modelo falharão no próximo envio. Esta ação não pode ser desfeita.",
       "deleteLocalDesc": "\"{name}\" será excluído do wacrm. Nunca foi enviado ao Meta, por isso não é necessária a limpeza remota.",
       "deleting": "Excluindo...",
       "delete": "Excluir",
@@ -1552,7 +1552,7 @@
     },
     "appearance": {
       "title": "Aparência",
-      "description": "Defina o modo e a cor do acento usados em todo o aplicativo. Gravado neste dispositivo — tente, ele muda ao vivo.",
+      "description": "Escolha entre os modos claro e escuro. A identidade âmbar da SignaCon permanece em todo o aplicativo.",
       "mode": "Modo",
       "useMode": "Usar o modo{mode}",
       "active": "Ativo",

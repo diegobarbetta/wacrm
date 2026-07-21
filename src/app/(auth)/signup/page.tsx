@@ -14,7 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { MessageSquare, CheckCircle, UsersRound } from 'lucide-react';
+import { CheckCircle, UsersRound } from 'lucide-react';
+import { BrandLogo } from '@/components/brand-logo';
 
 // `useSearchParams` opts the component out of static prerendering
 // unless wrapped in Suspense — same pattern as /login.
@@ -94,6 +95,7 @@ function SignupPageInner() {
       <div className="bg-background flex min-h-screen items-center justify-center px-4">
         <Card className="border-border bg-card w-full max-w-md">
           <CardHeader className="items-center text-center">
+            <BrandLogo className="mb-3 h-10 w-52" priority />
             <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
               <CheckCircle className="text-primary h-6 w-6" />
             </div>
@@ -131,11 +133,12 @@ function SignupPageInner() {
     <div className="bg-background flex min-h-screen items-center justify-center px-4">
       <Card className="border-border bg-card w-full max-w-md">
         <CardHeader className="items-center text-center">
+          <BrandLogo className="mb-3 h-10 w-52" priority />
           <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
             {inviteToken ? (
               <UsersRound className="text-primary h-6 w-6" />
             ) : (
-              <MessageSquare className="text-primary h-6 w-6" />
+              <BrandLogo variant="mark" className="h-7 w-7" alt="" />
             )}
           </div>
           <CardTitle className="text-foreground text-xl">
@@ -144,7 +147,7 @@ function SignupPageInner() {
           <CardDescription className="text-muted-foreground">
             {inviteToken
               ? 'Confirme seu e-mail e aceite o convite para participar da equipe.'
-              : 'Comece a usar o SC WACRM para WhatsApp'}
+              : 'Comece a usar o SignaCon CRM para WhatsApp'}
           </CardDescription>
         </CardHeader>
         <CardContent>

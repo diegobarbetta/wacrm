@@ -52,6 +52,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { createClient } from '@/lib/supabase/client';
+import { BrandLogo } from '@/components/brand-logo';
 
 interface PeekOk {
   ok: true;
@@ -235,6 +236,7 @@ export default function JoinPage() {
     return (
       <Card className="border-border bg-card w-full max-w-md">
         <CardHeader className="items-center text-center">
+          <BrandLogo className="mb-3 h-10 w-52" priority />
           <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10">
             <MailX className="h-6 w-6 text-red-400" />
           </div>
@@ -295,6 +297,7 @@ export default function JoinPage() {
   // ----- Peek OK -----
   const inviteHeader = (
     <CardHeader className="items-center text-center">
+      <BrandLogo className="mb-3 h-10 w-52" priority />
       <div className="bg-primary/10 mb-2 flex h-12 w-12 items-center justify-center rounded-xl">
         <UsersRound className="text-primary h-6 w-6" />
       </div>
