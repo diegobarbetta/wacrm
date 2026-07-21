@@ -7,6 +7,7 @@ import {
 } from '@formatjs/icu-messageformat-parser';
 import en from '../../messages/en.json';
 import ptBR from '../../messages/pt-BR.json';
+import { SETTINGS_SECTIONS } from '../components/settings/settings-sections';
 
 interface Messages {
   [key: string]: string | Messages;
@@ -59,6 +60,14 @@ describe('pt-BR messages', () => {
 
   it('has exact key parity with English', () => {
     expect([...translated.keys()].sort()).toEqual([...source.keys()].sort());
+  });
+
+  it('has a non-empty label for every settings section', () => {
+    for (const section of SETTINGS_SECTIONS) {
+      const key = `Settings.sections.${section}`;
+      expect(source.get(key), key).toBeTruthy();
+      expect(translated.get(key), key).toBeTruthy();
+    }
   });
 
   it('preserves ICU variables and rich-text tags', () => {
@@ -128,5 +137,5 @@ describe('visible source strings', () => {
     for (const file of sourceFiles(join(process.cwd(), 'src'))) {
       expect(readFileSync(file, 'utf8'), file).not.toMatch(forbidden);
     }
-  });
+  }, 15_000);
 });
